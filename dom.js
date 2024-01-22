@@ -11,15 +11,15 @@ signupForm.addEventListener('submit', (event) => {
         password: password.value
     }
     console.log(userObj);
+
     // We will do a post request 
     axios.post("http://localhost:3000/user/signup", userObj)
         .then((res) => {
             console.log(res);
             // form reset 
-
         })
-        .catch((error) => {
-            console.log(error);
+       .catch((error) => {
+            //console.log(error);
             //addinf this error to front end 
             const errorMessage = error.message;
             console.log(errorMessage);
