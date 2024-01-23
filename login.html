@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
+	<meta charset="UTF-8">
+	<title>Login Form</title>
+	<link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <h2>Login Form</h2>
-  <form action="user/login" method="POST" id="loginForm">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br><br>
-    <input type="submit" value="Login">
-  </form>
+	<div class="box">
+		<form action="user/login" method="POST" id="loginForm">
+			<h2>Login</h2>
+			<div class="inputBox">
+				<input type="email" id="email" name="email" required>
+				<span>Email</span>
+				<i></i>
+			</div>
+			<div class="inputBox">
+				<input type="password" id="password" name="password" required>
+				<span>Password</span>
+				<i></i>
+			</div>
+			<div class="links">
+				<a href="#">Forgot Password ?</a>
+				<a href="index.html">Signup</a>
+			</div>
+			<input type="submit" value="Login">
+		</form>
+	</div>
   <p id="error-message"></p>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
 <script src="dom-login.js"></script>
-
 </html>

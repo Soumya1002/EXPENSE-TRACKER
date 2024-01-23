@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense</title>
+    <link rel="stylesheet" type="text/css" href="style\add-expense.css">
+</head>
+<body>
+    <h1>Add Expense</h1>
+    <form action="expense/addexpense" method="POST" id="addExpenseForm">
+        <label for="amount">Expense Amount </label>
+        <input type="number" id="amount" name="amount" required>
+        <label for="desc">Description </label>
+        <input type="text" id="desc" name="desc">
+        <label for="cat">Choose a category  </label>
+        <select id="cat" name="cat" required>
+            <option value="Miscellaneous">Miscellaneous</option>
+            <option value="Travel">Travel</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Grocery">Fuel</option>
+            <option value="Rent">Rent</option>
+            <option value="Utilities">Utilities</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="medicalexpense">Medical Expense</option>
+            <option value="Apparel">Apparel</option>
+            <option value="educationn">Education</option>
+        </select>
+        <input type="submit" value="Add Expense">
+    </form>
+    <table id="expenseTable">
+        <thead>
+            <tr>
+                <th>Expense Amount</th>
+                <th>Description</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+<script src="dom-addexpense.js"></script>
+</html>
