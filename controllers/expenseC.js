@@ -1,4 +1,5 @@
 const Expense = require('../models/expenses');
+const User = require('../models/user')
 
 exports.addExpense  = async (req, res) => {
     try {
@@ -14,7 +15,6 @@ exports.addExpense  = async (req, res) => {
         console.log(err);
     }
 }
-
 exports.deleteExpense = async (req, res) => {
     try {
         console.log(req.body.id);
@@ -28,13 +28,28 @@ exports.deleteExpense = async (req, res) => {
         console.log(err);
     }
 }
-
 exports.getExpenses = async(req, res) => {
     try {
         console.log(req.body);
         // we will find all the the expenses having a particular user id. 
         const allExpense = await Expense.findAll({where :{userId: req.user.id}})
-        res.status(200).json({allExpense : allExpense});
+        // checking if loggedin user is a premium user or not 
+        User.findOne({
+            where: { id: req.user.id },
+            attributes: ['ispremiumuser'] // specify the column I want to retrieve
+          })
+          .then(user => {
+            if (user) {
+              console.log(user.ispremiumuser); // value of the 'ispremiumuser' column for the user with mentioned id of the user
+              res.status(200).json({allExpense : allExpense, isPremiumUser: user.ispremiumuser});
+            } else {
+              console.log("User not found.");
+            }
+          })
+          .catch(err => {
+            console.error('Error:', err);
+          });
+
 
     }
     catch (err) {
