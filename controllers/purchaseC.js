@@ -74,7 +74,7 @@ const updateTransactionStatus = async (req,res) =>{
 
             await Promise.all([
 
-                order.update({paymentid: req.body.payment_id, status: status, userId: req.user.id}),
+                order.update({paymentid: req.body.payment_id, status: status, id: req.user.id}),
 
                 req.user.update({ispremiumuser: true})
 

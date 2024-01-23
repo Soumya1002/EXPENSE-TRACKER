@@ -1,47 +1,58 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const cors = require('cors');
-require('dotenv').config();
-const sequelize = require('./util/database');
-const User = require('./models/user');
-const Expense = require('./models/expenses');
-const Income = require('./models/incomes');
-const Order = require('./models/orders');
-
-//Routers File Imports
-const signupRoutes = require('./routes/signupR');
-const loginRoutes = require('./routes/loginR');
-const expenseRoutes = require('./routes/expenseR');
-const incomeRoutes = require('./routes/incomeR');
-const purchaseRoutes = require('./routes/purchaseR');
-const premiumRoutes = require('./routes/premiumR');
-
-app.use(cors());
-app.use(bodyParser.json({ extended: false }));
-
-app.use(signupRoutes);
-app.use(loginRoutes);
-app.use('/expense',expenseRoutes);
-app.use('/income',incomeRoutes);
-app.use('/purchase',purchaseRoutes);
-app.use('/premium', premiumRoutes);
-
-//tables relationship
-User.hasMany(Expense);  // one to many
-Expense.belongsTo(User) //one to one 
-
-User.hasMany(Income);  // one to many
-Income.belongsTo(User) //one to one 
-
-User.hasMany(Order);
-Order.belongsTo(User);
-
-//When force: true is set, it will drop the existing tables from the database and recreate them, effectively resetting the database schema.
-sequelize.sync()
-    .then(result => {
-        app.listen(3000);
-    })
-    .catch(err => {
+const Income = require('../models/incomes');
+const User = require('../models/user')
+exports.addIncome  = async (req, res) => {
+    try {
+        //console.log(req.body);
+        const amount = req.body.amount;
+        const desc = req.body.desc;
+        const cat = req.body.cat;
+        console.log(req.user.id);
+        const income = await Income.create({ amountInc: amount, description: desc, category: cat, userId:req.user.id })
+        res.status(201).json({ data: income });
+    }
+    catch (err) {
         console.log(err);
-    })
+    }
+}
+exports.deleteIncome = async (req, res) => {
+    try {
+        //console.log(req.body.id);
+        await Income.destroy({
+            where: { id: req.body.id },
+        });
+        console.log("income deleted");
+        res.sendStatus(204);
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+exports.getIncomes = async(req, res) => {
+    try {
+        console.log(req.body);
+        // we will find all the the incomes having a particular user id. 
+        const allIncome = await Income.findAll({where :{userId: req.user.id}})
+        // checking if loggedin user is a premium user or not 
+        User.findOne({
+            where: { id: req.user.id },
+            attributes: ['ispremiumuser'] // specify the column I want to retrieve
+          })
+          .then(user => {
+            if (user) {
+              console.log(user.ispremiumuser); // value of the 'ispremiumuser' column for the user with mentioned id of the user
+              res.status(200).json({allIncome : allIncome, isPremiumUser: user.ispremiumuser});
+            } else {
+              console.log("User not found.");
+            }
+          })
+          .catch(err => {
+            console.error('Error:', err);
+          });
+        
+        
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}

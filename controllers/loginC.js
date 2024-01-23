@@ -9,7 +9,7 @@ exports.loginUser = async (req, res) => {
 
         const user = await User.findOne({
             where: {
-                email: email, // Specify the condition to match the email field
+                email: email, 
             }
         });
         if (user) {

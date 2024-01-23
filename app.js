@@ -7,6 +7,7 @@ const sequelize = require('./util/database');
 const User = require('./models/user');
 const Expense = require('./models/expenses');
 const Order = require('./models/orders');
+const jwt = require('jsonwebtoken');
 
 //Routers File Imports
 const signupRoutes = require('./routes/signupR');

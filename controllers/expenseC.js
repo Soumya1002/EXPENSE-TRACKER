@@ -3,12 +3,12 @@ const User = require('../models/user')
 
 exports.addExpense  = async (req, res) => {
     try {
-        //console.log(req.body);
+        console.log(req.body);
         const amount = req.body.amount;
         const desc = req.body.desc;
         const cat = req.body.cat;
         console.log(req.user.id);
-        const expense = await Expense.create({ amount: amount, description: desc, category: cat, userId:req.user.id })
+        const expense = await Expense.create({ amountExp: amount, description: desc, category: cat, userId:req.user.id })
         res.status(201).json({ data: expense });
     }
     catch (err) {
@@ -49,8 +49,8 @@ exports.getExpenses = async(req, res) => {
           .catch(err => {
             console.error('Error:', err);
           });
-
-
+        
+        
     }
     catch (err) {
         console.error(err);
